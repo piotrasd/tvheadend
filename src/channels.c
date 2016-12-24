@@ -906,6 +906,7 @@ channel_get_icon ( channel_t *ch )
     if (pick && picon) {
       LIST_FOREACH(ilm, &ch->ch_services, ilm_in2_link) {
         if (!(icn = service_get_channel_icon((service_t *)ilm->ilm_in1))) continue;
+        tvhwarn(LS_CHANNEL, "svc get icon: '%s'", icn);
         if (strncmp(icn, "picon://", 8))
           continue;
         snprintf(buf2, sizeof(buf2), "%s/%s", picon, icn+8);
@@ -917,9 +918,13 @@ channel_get_icon ( channel_t *ch )
       }
     }
 
+    tvhwarn(LS_CHANNEL, "iter %d picon %p icon '%s'", i, picon, icon);
+
   }
 
 found:
+
+  tvhwarn(LS_CHANNEL, "end: '%s'", icon);
 
   /* Nothing */
   if (!icon || !*icon)
